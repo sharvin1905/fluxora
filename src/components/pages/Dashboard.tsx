@@ -300,7 +300,7 @@ export function Dashboard({ state, setState, onAnalyze }: DashboardProps) {
                   <Tooltip 
                     contentStyle={{ backgroundColor: '#111', borderColor: 'rgba(255,255,255,0.1)', borderRadius: '12px' }}
                     itemStyle={{ color: '#fff' }}
-                    formatter={(value: number) => [value.toLocaleString(), 'Views']}
+                    formatter={(value: any) => [value.toLocaleString(), 'Views']}
                     labelStyle={{ color: '#888', marginBottom: '4px' }}
                   />
                   {chartData.length > 0 && (
@@ -330,7 +330,7 @@ export function Dashboard({ state, setState, onAnalyze }: DashboardProps) {
                     cursor={{ fill: 'rgba(255,255,255,0.05)' }}
                     contentStyle={{ backgroundColor: '#111', borderColor: 'rgba(255,255,255,0.1)', borderRadius: '12px' }}
                     itemStyle={{ color: '#fff' }}
-                    formatter={(value: number) => [value, 'Trend Score']}
+                    formatter={(value: any) => [value, 'Trend Score']}
                   />
                   <Bar dataKey="trend" radius={[4, 4, 0, 0]}>
                     {yearlyTrendData.map((entry, index) => (
