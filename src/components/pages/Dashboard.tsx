@@ -91,11 +91,27 @@ export function Dashboard({ state, setState, onAnalyze }: DashboardProps) {
 
       const formatNum = (num: number) => num > 1000000 ? (num/1000000).toFixed(1) + 'M' : num > 1000 ? (num/1000).toFixed(1) + 'K' : num.toString();
       
+      const hardcodedLinks: Record<string, { views: string, likes: string, comments: string }> = {
+        'https://youtu.be/iXSq4EnJjHQ?si=tvvlCS5OcneMUZ1m': { views: '776K', likes: '24K', comments: '1921K' },
+        'https://www.youtube.com/watch?v=7iXNvA8QOUw': { views: '7.6M', likes: '205K', comments: '7369K' },
+        'https://www.youtube.com/watch?v=kG8zlZNnZlE': { views: '4.6M', likes: '121K', comments: '3471K' },
+        'https://www.youtube.com/watch?v=CrwMzyyEdF4&list=RDCrwMzyyEdF4&start_radio=1': { views: '5.5M', likes: '84K', comments: '912' },
+        'https://www.youtube.com/watch?v=iXSq4EnJjHQ': { views: '766K', likes: '24K', comments: '1921' },
+        'https://www.youtube.com/watch?v=fBSBG7h3gVw&t=21s': { views: '142K', likes: '3.5K', comments: '266' },
+        'https://www.youtube.com/watch?v=rXbpZSTBefI': { views: '755K', likes: '14K', comments: '835' },
+      };
+
+      const override = hardcodedLinks[url.trim()];
+
+      const viewsValue = override ? override.views : formatNum(Math.floor(pseudoRandom(seed + 100) * 5000000) + 100000);
+      const likesValue = override ? override.likes : formatNum(Math.floor(pseudoRandom(seed + 102) * 500000) + 10000);
+      const commentsValue = override ? override.comments : formatNum(Math.floor(pseudoRandom(seed + 104) * 50000) + 1000);
+      
       const newMetrics = [
-        { label: 'Views', value: formatNum(Math.floor(pseudoRandom(seed + 100) * 5000000) + 100000), icon: Eye, color: 'text-blue-400', growth: `+${(pseudoRandom(seed + 101) * 15 + 1).toFixed(1)}%` },
-        { label: 'Likes', value: formatNum(Math.floor(pseudoRandom(seed + 102) * 500000) + 10000), icon: Heart, color: 'text-pink-500', growth: `+${(pseudoRandom(seed + 103) * 10 + 1).toFixed(1)}%` },
-        { label: 'Comments', value: formatNum(Math.floor(pseudoRandom(seed + 104) * 50000) + 1000), icon: MessageCircle, color: 'text-yellow-400', growth: `+${(pseudoRandom(seed + 105) * 20 + 1).toFixed(1)}%` },
-        { label: 'Shares', value: formatNum(Math.floor(pseudoRandom(seed + 106) * 100000) + 5000), icon: Share2, color: 'text-green-400', growth: `+${(pseudoRandom(seed + 107) * 12 + 1).toFixed(1)}%` },
+        { label: 'Views', value: viewsValue, icon: Eye, color: 'text-blue-400', growth: `+${(pseudoRandom(seed + 101) * 15 + 1).toFixed(1)}%` },
+        { label: 'Likes', value: likesValue, icon: Heart, color: 'text-pink-500', growth: `+${(pseudoRandom(seed + 103) * 10 + 1).toFixed(1)}%` },
+        { label: 'Comments', value: commentsValue, icon: MessageCircle, color: 'text-yellow-400', growth: `+${(pseudoRandom(seed + 105) * 20 + 1).toFixed(1)}%` },
+        { label: 'Shares', value: formatNum(Math.floor(pseudoRandom(seed + 106) * 950) + 50), icon: Share2, color: 'text-green-400', growth: `+${(pseudoRandom(seed + 107) * 12 + 1).toFixed(1)}%` },
         { label: 'Watch Time', value: `${Math.floor(pseudoRandom(seed + 108) * 40) + 50}%`, icon: PlayCircle, color: 'text-purple-400', growth: `+${(pseudoRandom(seed + 109) * 5 + 1).toFixed(1)}%` },
         { label: 'Eng. Rate', value: `${(pseudoRandom(seed + 110) * 10 + 5).toFixed(1)}%`, icon: Users, color: 'text-orange-400', growth: `+${(pseudoRandom(seed + 111) * 8 + 1).toFixed(1)}%` },
       ];
@@ -139,7 +155,7 @@ export function Dashboard({ state, setState, onAnalyze }: DashboardProps) {
           PREDICT <span className="text-[var(--color-crimson)]">VIRAL</span> TRENDS
         </h1>
         <p className="text-[var(--color-soft-gray)] text-center max-w-2xl">
-          Enter a social media URL below. Our AI engine will analyze the content and predict its future popularity across multiple platforms.
+          Enter a social media URL below. Our AI engine will analyze the content and simulate a prediction of its future popularity across multiple platforms. (Note: Data is mock/simulated for this prototype).
         </p>
 
         <form onSubmit={handleAnalyze} className="relative w-full max-w-3xl mt-4 group">
@@ -328,7 +344,10 @@ export function Dashboard({ state, setState, onAnalyze }: DashboardProps) {
 
           {/* Bottom Left: Engagement Metrics */}
           <div className="glass rounded-3xl p-6 lg:col-span-2">
-            <h3 className="text-white font-bold text-lg mb-6">Projected Engagement Metrics</h3>
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-white font-bold text-lg">Projected Future Engagement</h3>
+              <span className="px-2 py-1 bg-[rgba(255,255,255,0.1)] text-xs text-gray-400 rounded-md border border-[rgba(255,255,255,0.05)]">AI Simulated</span>
+            </div>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {metrics.map((metric, idx) => (
                 <div key={idx} className="bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-2xl p-4 hover:bg-[rgba(255,255,255,0.05)] transition-colors">

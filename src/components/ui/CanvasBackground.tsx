@@ -100,7 +100,7 @@ export function CanvasBackground() {
           p.x = p.baseX - dx * force * 0.1;
           p.y = p.baseY - dy * force * 0.1;
 
-          size = p.baseSize + force * 2.5;
+          size = p.baseSize + force * 1.2;
 
           // Transition to Crimson Red (#DC143C)
           const r = 220;
@@ -131,7 +131,7 @@ export function CanvasBackground() {
         // Extra glow for highly affected particles
         if (distance < maxDistance * 0.5) {
           ctx.beginPath();
-          ctx.arc(p.x, p.y, size * 3, 0, Math.PI * 2);
+          ctx.arc(p.x, p.y, size * 2, 0, Math.PI * 2);
           const force = (maxDistance * 0.5 - distance) / (maxDistance * 0.5);
           ctx.fillStyle = `rgba(220, 20, 60, ${force * 0.2})`;
           ctx.fill();

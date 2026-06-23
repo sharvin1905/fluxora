@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Eye, Heart, MessageCircle, Share2, PlayCircle, Users } from 'lucide-react';
 import { CanvasBackground } from '@/components/ui/CanvasBackground';
 import { LoadingScreen } from '@/components/ui/LoadingScreen';
@@ -39,6 +39,38 @@ export default function Home() {
   const [currentUser, setCurrentUser] = useState<UserData | null>(null);
   const [authModalMode, setAuthModalMode] = useState<'login' | 'signup' | null>(null);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // LocalStorage Persistence
+  useEffect(() => {
+    const storedUsers = localStorage.getItem('fluxora_users');
+    const storedCurrentUser = localStorage.getItem('fluxora_currentUser');
+    const storedHistory = localStorage.getItem('fluxora_history');
+    
+    if (storedUsers) setUsersDB(JSON.parse(storedUsers));
+    if (storedCurrentUser) setCurrentUser(JSON.parse(storedCurrentUser));
+    if (storedHistory) setHistory(JSON.parse(storedHistory));
+    
+    setIsLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    if (isLoaded) localStorage.setItem('fluxora_users', JSON.stringify(usersDB));
+  }, [usersDB, isLoaded]);
+
+  useEffect(() => {
+    if (isLoaded) {
+      if (currentUser) {
+        localStorage.setItem('fluxora_currentUser', JSON.stringify(currentUser));
+      } else {
+        localStorage.removeItem('fluxora_currentUser');
+      }
+    }
+  }, [currentUser, isLoaded]);
+
+  useEffect(() => {
+    if (isLoaded) localStorage.setItem('fluxora_history', JSON.stringify(history));
+  }, [history, isLoaded]);
 
   const [dashboardState, setDashboardState] = useState<DashboardStateData>({
     url: '',
