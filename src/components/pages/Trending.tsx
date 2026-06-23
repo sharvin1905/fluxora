@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Flame, TrendingUp, PlayCircle, Hash, Instagram, Youtube, Twitter } from 'lucide-react';
+import { Flame, TrendingUp, PlayCircle, Hash, Camera, Video, MessageCircle } from 'lucide-react';
 
 interface TrendingItem {
   id: string;
@@ -71,7 +71,7 @@ const itemVariants = {
     opacity: 1, 
     y: 0,
     transition: {
-      type: "spring",
+      type: "spring" as const,
       stiffness: 300,
       damping: 24
     }
@@ -81,9 +81,9 @@ const itemVariants = {
 export function Trending() {
   const getPlatformIcon = (platform: string) => {
     switch(platform) {
-      case 'youtube': return <Youtube size={16} className="text-red-500" />;
-      case 'instagram': return <Instagram size={16} className="text-pink-500" />;
-      case 'twitter': return <Twitter size={16} className="text-blue-400" />;
+      case 'youtube': return <Video size={16} className="text-red-500" />;
+      case 'instagram': return <Camera size={16} className="text-pink-500" />;
+      case 'twitter': return <MessageCircle size={16} className="text-blue-400" />;
       default: return <PlayCircle size={16} className="text-gray-400" />;
     }
   };
